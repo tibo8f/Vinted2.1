@@ -1,0 +1,1 @@
+ /Users/thibaut/Documents/Ecam/MA1/Mobile/Vinted2.0/.dart_tool/flutter_build/f80ebdd5b07ede4d9fd9cea5dd6f37bc/native_assets.yaml: 
