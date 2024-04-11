@@ -31,7 +31,16 @@ class MyApp extends StatelessWidget {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-            )
+              label: 'home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              label: 'School',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Business',
+            ),
           ],
         ),
       ),
