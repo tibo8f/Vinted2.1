@@ -1,74 +1,134 @@
-import { Image, StyleSheet, Platform } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  Image,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import {
+  launchCamera,
+  CameraOptions,
+  ImagePickerResponse,
+} from "react-native-image-picker";
+import { router } from "expo-router";
+import {
+  Camera,
+  useCameraDevice,
+  useCameraPermission,
+} from "react-native-vision-camera";
 
-import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+const SellProduct = () => {
+  const [productName, setProductName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [imageUri, setImageUri] = useState<string | null>(null);
+  const device = useCameraDevice("back");
+  const { hasPermission } = useCameraPermission();
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
+  const handleCamera = async () => {
+    const options: CameraOptions = {
+      mediaType: "photo",
+      maxWidth: 300,
+      maxHeight: 300,
+      quality: 1,
+    };
+
+    launchCamera(options, (response: ImagePickerResponse) => {
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.errorCode) {
+        console.log("ImagePicker Error: ", response.errorMessage);
+      } else if (response.assets && response.assets.length > 0) {
+        setImageUri(response.assets[0].uri || null);
       }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: "cmd + d", android: "cmd + m" })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this
-          starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{" "}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>{" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    });
+  };
+
+  const handleSubmit = () => {
+    if (!productName || !description || !price || !imageUri) {
+      Alert.alert("Input Error", "Please fill in all fields and add an image.");
+      return;
+    }
+
+    // Submit the product data
+    const productData = {
+      name: productName,
+      description,
+      price: parseFloat(price),
+      image: imageUri,
+    };
+
+    console.log("Product data:", productData);
+    Alert.alert("Success", "Product listed successfully!");
+
+    // Reset the form
+    setProductName("");
+    setDescription("");
+    setPrice("");
+    setImageUri(null);
+  };
+
+  return (
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Product Name"
+        onChangeText={setProductName}
+        value={productName}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Description"
+        onChangeText={setDescription}
+        value={description}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Price"
+        onChangeText={setPrice}
+        value={price}
+        keyboardType="numeric"
+      />
+      <Button title="Take Photo" onPress={handleCamera} />
+      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+      <Button title="List Product" onPress={handleSubmit} />
+      {device && (
+        <Camera
+          style={StyleSheet.absoluteFill}
+          device={device}
+          isActive={true}
+        />
+      )}
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
+  container: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    gap: 8,
+    paddingHorizontal: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  input: {
+    width: "100%",
+    height: 40,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingHorizontal: 10,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
+  image: {
+    width: 200,
+    height: 200,
+    marginTop: 20,
+    marginBottom: 20,
   },
 });
+
+export default SellProduct;
