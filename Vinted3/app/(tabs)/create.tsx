@@ -1,71 +1,36 @@
-import Card from "@/components/Card";
-import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator, FlatList, StyleSheet } from "react-native";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { View, StyleSheet } from "react-native";
+import { Camera } from "expo-camera";
+import { useState, useEffect, useRef } from "react";
+import * as MediaLibrary from "expo-media-library";
 
-// Define the Article type
-type Article = {
-  id: number;
-  title: string;
-  content: string;
-  price: number;
-  author: {
-    name: string;
-  };
-  image: string;
-};
+export default function App() {
+  const [hasCameraPermission, setHasCameraPermission] = useState<
+    boolean | null
+  >(null);
+  const [image, setImage] = useState<string | null>(null);
+  const cameraRef = useRef(null);
 
-const App = () => {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState<Article[]>([]);
-
-  const getItem = async () => {
-    try {
-      console.log("search");
-      const response = await fetch("http://192.168.1.8:3000/api/newproduct", {
-        method: "GET",
-      });
-      console.log("Get was made");
-      const json = await response.json();
-      console.log(json);
-      setData(json);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Ask for camera permission
   useEffect(() => {
-    getItem();
+    (async () => {
+      await MediaLibrary.requestPermissionsAsync();
+      const cameraStatus = await Camera.requestCameraPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === "granted");
+    })();
   }, []);
 
-  if (isLoading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <Card
-            title={item.title}
-            content={item.content || ""}
-            price={item.price}
-            user={item.author.name || ""}
-            image={item.image}
-          />
-        )}
-      />
+    <View>
+      {/* <Camera 
+      // style={styles.camera} 
+      ref={cameraRef}
+    >
+
+
+    </Camera> */}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -76,4 +41,65 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+// import { Camera, CameraView, useCameraPermissions } from "expo-camera";
+// import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+// export default function App() {
+//   const [permission, requestPermission] = useCameraPermissions();
+
+//   if (!permission) {
+//     // Camera permissions are still loading.
+
+//     return <View />;
+//   }
+
+//   if (!permission.granted) {
+//     // Camera permissions are not granted yet.
+//     return (
+//       <View style={styles.container}>
+//         <Text style={{ textAlign: "center" }}>
+//           We need your permission to show the camera
+//         </Text>
+//         <Button onPress={requestPermission} title="grant permission" />
+//       </View>
+//     );
+//   }
+
+//   return (
+//     <View style={styles.container}>
+//       <CameraView style={styles.camera}>
+//         <View style={styles.buttonContainer}>
+//           <TouchableOpacity style={styles.button}>
+//             <Text style={styles.text}>Take a picture</Text>
+//           </TouchableOpacity>
+//         </View>
+//       </CameraView>
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: "center",
+//   },
+//   camera: {
+//     flex: 1,
+//   },
+//   buttonContainer: {
+//     flex: 1,
+//     flexDirection: "row",
+//     backgroundColor: "transparent",
+//     margin: 64,
+//   },
+//   button: {
+//     flex: 1,
+//     alignSelf: "flex-end",
+//     alignItems: "center",
+//   },
+//   text: {
+//     fontSize: 24,
+//     fontWeight: "bold",
+//     color: "white",
+//   },
+// });
