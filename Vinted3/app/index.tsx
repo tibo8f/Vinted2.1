@@ -1,20 +1,40 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ScrollView,
+  Image,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "@/components/CustomButton";
 import { router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const WelcomePage = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Vinted2 !</Text>
-      <Text style={styles.description}>
-        Please sign in to access the application{" "}
-      </Text>
-      <CustomButton title="Sign In" onPress={() => router.push("/sign-in")} />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <View>
+          <Image
+            source={require("../assets/images/vinted.png")}
+            style={styles.image}
+            resizeMode="contain"
+          />
+          <Text style={styles.title}>Welcome to Vinted </Text>
+          <Text style={styles.description}>
+            Please sign in to access the application{" "}
+          </Text>
+          <CustomButton
+            title="Sign In"
+            onPress={() => router.push("/sign-in")}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -33,7 +53,16 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     textAlign: "center",
+    marginBottom: 40,
+  },
+  scrollView: {
+    height: "100%",
+  },
+  image: {
+    width: "100%",
+    height: 200,
     marginBottom: 20,
+    marginTop: 50,
   },
 });
 

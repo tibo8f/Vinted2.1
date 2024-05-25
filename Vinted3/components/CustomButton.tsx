@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: "black",
+    backgroundColor: "#007782",
     width: 120,
   },
   buttonPressed: {

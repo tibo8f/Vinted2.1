@@ -1,7 +1,7 @@
 import Card from "@/components/Card";
 import React, { useEffect, useState } from "react";
 import { View, ActivityIndicator, FlatList, StyleSheet } from "react-native";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // Define the Article type
 type Article = {
@@ -25,9 +25,8 @@ const App = () => {
       const response = await fetch("http://192.168.1.8:3000/api/newproduct", {
         method: "GET",
       });
-      console.log("Get was made");
       const json = await response.json();
-      console.log(json);
+      console.log("Got those items from the server", json);
       setData(json);
     } catch (error) {
       console.error(error);
@@ -49,7 +48,7 @@ const App = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={data}
         keyExtractor={(item, index) => index.toString()}
@@ -63,7 +62,7 @@ const App = () => {
           />
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
