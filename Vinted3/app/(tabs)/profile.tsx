@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { router } from "expo-router";
+import * as Localization from "expo-localization";
 
 const Profile = () => {
   const [userName, setUserName] = useState("");
@@ -58,6 +59,26 @@ const Profile = () => {
       console.error("Error logging out:", error);
     }
   };
+  const [localizationInfo, setLocalizationInfo] = useState("");
+
+  useEffect(() => {
+    const getLocalizationInfo = async () => {
+      const locales = Localization.getLocales();
+      const localeInfo = JSON.stringify(locales[0], null, 2);
+      setLocalizationInfo(localeInfo);
+    };
+
+    getLocalizationInfo();
+  }, []);
+
+  const showAlert = () => {
+    Alert.alert(
+      "Localization Info",
+      localizationInfo,
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+      { cancelable: false }
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -66,6 +87,14 @@ const Profile = () => {
         {userName ? (
           <View style={styles.userContainer}>
             <Text style={styles.userName}>Welcome, {userName}</Text>
+            <TouchableOpacity
+              style={styles.buttonLocalisation}
+              onPress={showAlert}
+            >
+              <Text style={styles.buttonLocalizationText}>
+                What's my localization info ?{" "}
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={handleLogout}>
               <Text style={styles.buttonText}>Log out</Text>
             </TouchableOpacity>
@@ -114,12 +143,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#A52A2A",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 100,
     marginBottom: 20,
     paddingHorizontal: 20,
   },
   buttonText: {
     color: "#fff",
     fontSize: 18,
+    fontWeight: "bold",
+  },
+  buttonLocalisation: {
+    width: "100%",
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: "gray",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  buttonLocalizationText: {
+    color: "#fff",
+    fontSize: 14,
     fontWeight: "bold",
   },
 });
