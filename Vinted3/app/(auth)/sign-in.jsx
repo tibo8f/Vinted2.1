@@ -12,6 +12,7 @@ const Login = () => {
   const navigation = useNavigation();
 
   const handleLogin = async () => {
+    console.log("login")
     if (!email || !password) {
       Alert.alert('Input Error', 'Please fill in both email and password fields.');
       return;

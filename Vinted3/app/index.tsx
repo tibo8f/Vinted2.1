@@ -7,13 +7,14 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+
 import CustomButton from "@/components/CustomButton";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { NavigationContainer } from '@react-navigation/native';
 
 const WelcomePage = () => {
-  const navigation = useNavigation();
+  
 
   return (
     <SafeAreaView style={styles.container}>
