@@ -1,6 +1,14 @@
 import Card from "@/components/Card";
+import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, ActivityIndicator, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Define the Article type
@@ -15,7 +23,8 @@ type Article = {
   image: string;
 };
 
-const App = () => {
+const Home = () => {
+  const navigation = useNavigation();
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Article[]>([]);
 
@@ -53,13 +62,29 @@ const App = () => {
         data={data}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <Card
-            title={item.title}
-            content={item.content || ""}
-            price={item.price}
-            user={item.author.name || ""}
-            image={item.image}
-          />
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                pathname: "/(article)/ArticlePage",
+                params: {
+                  id: item.id,
+                  title: item.title,
+                  content: item.content,
+                  price: item.price,
+                  user: item.author.name,
+                  image: item.image,
+                },
+              })
+            }
+          >
+            <Card
+              title={item.title}
+              content={item.content || ""}
+              price={item.price}
+              user={item.author.name || ""}
+              image={item.image}
+            />
+          </TouchableOpacity>
         )}
       />
     </SafeAreaView>
@@ -75,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Home;

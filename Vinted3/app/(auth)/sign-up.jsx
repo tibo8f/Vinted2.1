@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from "expo-router";
 
 const SignUp = () => {
   const [name, setName] = useState('');
@@ -31,7 +32,7 @@ const SignUp = () => {
         // Sign up successful, store the token and navigate to the home screen
         await AsyncStorage.setItem('token', data.token);
         console.log('Sign up successful:', data);
-        navigation.replace('/home');
+        router.replace("/home");
       } else {
         // Sign up failed, display error message
         Alert.alert('Sign Up Failed', data.error || 'An error occurred during sign up');
