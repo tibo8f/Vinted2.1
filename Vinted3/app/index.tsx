@@ -11,11 +11,9 @@ import {
 import CustomButton from "@/components/CustomButton";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from "@react-navigation/native";
 
 const WelcomePage = () => {
-  
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -32,6 +30,7 @@ const WelcomePage = () => {
           <CustomButton
             title="Sign In"
             onPress={() => router.push("/sign-in")}
+            // onPress={() => router.push("/home")}
           />
         </View>
       </ScrollView>

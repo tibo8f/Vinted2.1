@@ -19,7 +19,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch('http://192.168.1.8:3000/api/mobilenewuser', {
+      const response = await fetch('http://172.20.10.4:3000/api/mobilenewuser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

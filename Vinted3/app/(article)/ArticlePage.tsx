@@ -36,7 +36,7 @@ const ArticlePage = () => {
     console.log("Item purchased");
     try {
       const response = await fetch(
-        `http://192.168.1.8:3000/api/mobiledeletearticle`,
+        `http://172.20.10.4:3000/api/mobiledeletearticle`,
         {
           method: "DELETE",
           headers: {
@@ -72,7 +72,7 @@ const ArticlePage = () => {
         <View style={styles.contentContainer}>
           <Text style={styles.title}>{title}</Text>
           <Image
-            source={{ uri: `http://192.168.1.8:3000/${image}` }}
+            source={{ uri: `http://172.20.10.4:3000/${image}` }}
             style={styles.image}
             resizeMode="cover"
           />

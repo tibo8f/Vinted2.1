@@ -31,7 +31,7 @@ const Home = () => {
   const getItem = async () => {
     try {
       console.log("search");
-      const response = await fetch("http://192.168.1.8:3000/api/newproduct", {
+      const response = await fetch("http://172.20.10.4:3000/api/newproduct", {
         method: "GET",
       });
       const json = await response.json();

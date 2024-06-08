@@ -25,7 +25,7 @@ const Profile = () => {
         const token = await AsyncStorage.getItem("token");
         if (token) {
           const response = await fetch(
-            "http://192.168.1.8:3000/api/mobileconnection",
+            "http://172.20.10.4:3000/api/mobileconnection",
             {
               method: "GET",
               headers: {

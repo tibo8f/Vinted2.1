@@ -4,22 +4,22 @@ import { router } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from '@react-navigation/native';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigation = useNavigation();
+  
 
   const handleLogin = async () => {
     console.log("login")
+    router.replace("/home");
     if (!email || !password) {
       Alert.alert('Input Error', 'Please fill in both email and password fields.');
       return;
     }
 
     try {
-      const response = await fetch("http://192.168.1.8:3000/api/mobileconnection", {
+      const response = await fetch("http://172.20.10.4:3000/api/mobileconnection", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

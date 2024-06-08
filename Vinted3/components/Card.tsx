@@ -21,7 +21,7 @@ const CardItem = (props: NProp) => {
     <View style={styles.card}>
       <Image
         source={{
-          uri: `http://192.168.1.8:3000/${props.image}`, // "http://192.168.1.8:3000/images/Chaussure.jpg/boots.jpeg"
+          uri: `http://172.20.10.4:3000/${props.image}`, // "http://192.168.1.8:3000/images/Chaussure.jpg/boots.jpeg"
         }}
         style={styles.image}
       />
