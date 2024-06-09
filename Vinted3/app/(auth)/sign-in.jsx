@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     console.log("login")
-    router.replace("/home");
+    
     if (!email || !password) {
       Alert.alert('Input Error', 'Please fill in both email and password fields.');
       return;
